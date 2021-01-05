@@ -38,12 +38,13 @@
                 let cell = document.createElement("div");
                 cell.classList.add('cell');
                 // console.log(map[100 * y + x], 'ceshi');
-                if (map[100 * y + x] == 1) { // 一维表示二维
+                if (map[100 * y + x] == 1) { // 一维表示二维，有墙
                     cell.style.backgroundColor = "black";
                 }
                 cell.addEventListener("mousemove", () => {
                     if (mousedown) {
                         if (clear) {
+                            // console.log('test');
                             cell.style.bakgroundColor = ""
                             map[100 * y + x] = 0
                         } else {
@@ -57,14 +58,14 @@
         }
         let mousedown = false
         let clear = false
-        document.addEventListener("mousedown", e => {
+        document.addEventListener("mousedown", e => { //按下鼠标
             mousedown = true
             clear = (e.which === 3)
         });
-        document.addEventListener("mouseup", () => {
+        document.addEventListener("mouseup", () => { // 释放鼠标
             mousedown = false
         })
-        document.addEventListener("contextmenu", e => {
+        document.addEventListener("contextmenu", e => { // 右键阻止
             e.preventDefault();
         })
         // 2、广度优先搜索 寻路 pre
@@ -72,13 +73,12 @@
             let table = Object.create(map) // 一维数组
             var queue = [start];
             // push shift 队列(广度优先)
-            // push pop 栈（深度优先）
-
+            // push pop 栈（深度优先对于寻路问题不适）
             async function insert(x, y, pre) {
                 if (x < 0 || x >= 100 || y < 0 || y >= 100) { // 边界
                     return;
                 }
-                if (table[y * 100 + x]) {
+                if (table[y * 100 + x]) { // 边界
                     return
                 };
 
@@ -92,7 +92,7 @@
                 if (x === end[0] && y === end[1]) {
                     // return true
                     let path = []
-                    while (x != start[0] || y != start[1]) {
+                    while (x != start[0] || y != start[1]) { // 找pre
                         path.push(map[y * 100 + x]);
                         [x, y] = table[y * 100 + x] // 解构
                         await sleep(30);

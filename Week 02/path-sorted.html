@@ -37,7 +37,7 @@
             }
             take() {
                 if (!this.data.length) {
-                    return
+                    return;
                 }
                 let min = this.data[0];
                 let minIndex = 0;
@@ -106,7 +106,7 @@
                 if (x < 0 || x >= 100 || y < 0 || y >= 100) { // 边界
                     return;
                 }
-                if (table[y * 100 + x]) {
+                if (table[y * 100 + x]) { // 
                     return
                 };
 
