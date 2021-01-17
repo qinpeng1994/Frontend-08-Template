@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMP算法</title>
+</head>
+
+<body>
+    <script>
+        //  模式匹配  时间复杂度m*n
+        // 高德纳  leetcode T28类似
+        function kmp(source, pattern) {
+            // 计算 table
+            let table = new Array(pattern.length).fill(0);
+             { // 局部代码块
+                let i = 1,
+                    j = 0;  //已重复
+
+                while (i < pattern.length) {
+                    if (pattern[i] === pattern[j]) { // 匹配上
+                        ++j, ++i;
+                        table[i] = j;  // 记录
+                    } else {
+                        if (j > 0) {
+                            j = table[j];
+                        } else {
+                            // table[i] = j
+                            ++i;
+                        }
+                    }
+                }
+            }
+
+            // 模式匹配
+            {
+                let i = 0,
+                    j = 0;
+                while (i < source.length) {
+                    if (pattern[j] === source[i]) {
+                        ++i, ++j;
+                    } else {
+                        if (j > 0) {
+                            j = table[j];
+                        } else {
+                            ++i;
+                        }
+                    }
+                    if (j === pattern.length) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        console.log(kmp('abc', 'abc')); 
+        </script>
+            
+</body>
+</html>
